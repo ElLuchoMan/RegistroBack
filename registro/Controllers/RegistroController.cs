@@ -71,13 +71,27 @@ namespace registro.Controllers
 
         // PUT api/<RegistroController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Registro registro)
         {
+            try
+            {
+                if(id!= registro.id)
+                {
+                    return BadRequest();
+                }
+                _context.Update(registro);
+                await _context.SaveChangesAsync();
+                return Ok(new {message = "Registro actualizado" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE api/<RegistroController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void  Delete(int id)
         {
         }
     }
