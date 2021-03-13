@@ -91,8 +91,24 @@ namespace registro.Controllers
 
         // DELETE api/<RegistroController>/5
         [HttpDelete("{id}")]
-        public void  Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try
+            {
+                var registro = await _context.Registro.FindAsync(id);
+                if (registro == null)
+                {
+                    return NotFound();
+                }
+                _context.Registro.Remove(registro);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Registro eliminado" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
