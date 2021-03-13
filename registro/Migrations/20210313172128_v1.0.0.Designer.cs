@@ -8,7 +8,7 @@ using registro;
 namespace registro.Migrations
 {
     [DbContext(typeof(AplicationDBContext))]
-    [Migration("20210313033052_v1.0.0")]
+    [Migration("20210313172128_v1.0.0")]
     partial class v100
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
