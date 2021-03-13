@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,24 @@ namespace registro.Controllers
     [ApiController]
     public class RegistroController : ControllerBase
     {
+        private readonly AplicationDBContext _context;
+        public RegistroController(AplicationDBContext context)
+        {
+            _context = context;
+        }
         // GET: api/<RegistroController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var listRegistros = await _context.Registro.ToListAsync();
+                return Ok(listRegistros);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET api/<RegistroController>/5
