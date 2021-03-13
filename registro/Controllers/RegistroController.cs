@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using registro.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,8 +55,18 @@ namespace registro.Controllers
 
         // POST api/<RegistroController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] Registro registro)
         {
+            try
+            {
+                _context.Add(registro);
+                await _context.SaveChangesAsync();
+                return Ok(registro);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT api/<RegistroController>/5
