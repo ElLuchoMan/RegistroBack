@@ -35,9 +35,21 @@ namespace registro.Controllers
 
         // GET api/<RegistroController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            try
+            {
+                var registro = await _context.Registro.FindAsync(id);
+                if (registro == null)
+                {
+                    return NotFound();
+                }
+                return Ok(registro);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST api/<RegistroController>
